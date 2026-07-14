@@ -1,0 +1,33 @@
+/* ========== 自定义补充样式 ========== */
+
+/* 平滑滚动 */
+html { scroll-behavior: smooth; }
+
+/* 导航栏滚动效果 */
+#navbar.scrolled { background: rgba(255,255,255,0.95); border-bottom-color: rgba(229,231,235,1); }
+#navbar.scrolled .nav-link { color: rgba(75,85,99,1); }
+
+/* 导航高亮 */
+.nav-link.active { color: rgba(29,78,216,1); font-weight: 600; }
+
+/* 技能进度条动画 */
+.skill-bar { width: 0; transition: width 1s ease-out; }
+.skill-bar.animate { width: attr(data-width); }
+
+/* 联系方式复制反馈 */
+#copy-toast.show { opacity: 1; visibility: visible; }
+
+/* 移动端菜单过渡 */
+#mobile-menu { transition: max-height 0.3s ease; }
+
+/* 卡片悬浮效果 */
+.project-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px -8px rgba(0,0,0,0.1); }
+
+/* 自定义滚动条 */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* 首屏布局兼容 */
+@media (max-width: 640px) { .hero-title { font-size: 2.25rem; } }

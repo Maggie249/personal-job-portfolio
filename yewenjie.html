@@ -1,0 +1,1208 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>叶文洁 · 从人间炼狱，到宇宙回响，终为文明奠基 — 《三体》人物主题站</title>
+<style>
+/* ===== 全局重置 & 字体 ===== */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@400;700&display=swap');
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: #0d0a0f;
+  color: #FFFFFF;
+  overflow-x: hidden;
+  line-height: 1.8;
+}
+::selection { background: rgba(244,67,54,0.3); color:#fff; }
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-track { background:#0d0a0f; }
+::-webkit-scrollbar-thumb { background:linear-gradient(180deg,#EF5350,#B71C1C); border-radius:3px; }
+
+/* ===== 粒子画布 ===== */
+#particle-canvas {
+  position:fixed; top:0; left:0; width:100vw; height:100vh;
+  z-index:0; pointer-events:none;
+}
+
+/* ===== 通用工具 ===== */
+.section-padding { padding:100px 5%; position:relative; z-index:1; }
+.section-title {
+  text-align:center; font-size:2.4rem; font-weight:900;
+  background:linear-gradient(135deg,#EF5350,#FF8A80);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-bottom:60px; letter-spacing:6px;
+}
+.section-title::after {
+  content:''; display:block; width:80px; height:3px;
+  background:linear-gradient(90deg,#EF5350,#B71C1C);
+  margin:16px auto 0; border-radius:2px;
+}
+.container { max-width:1200px; margin:0 auto; position:relative; z-index:1; }
+
+/* ===== 渐入动画 ===== */
+.fade-up { opacity:0; transform:translateY(40px); transition:all 0.8s cubic-bezier(0.22,1,0.36,1); }
+.fade-up.visible { opacity:1; transform:translateY(0); }
+
+/* ===== 卡片悬浮 ===== */
+.card-hover {
+  transition:all 0.3s ease;
+  background:rgba(244,67,54,0.03);
+  border:1px solid rgba(244,67,54,0.12);
+  border-radius:16px;
+  backdrop-filter:blur(10px);
+}
+.card-hover:hover {
+  transform:translateY(-6px);
+  box-shadow:0 20px 60px rgba(244,67,54,0.15);
+  border-color:rgba(244,67,54,0.3);
+}
+
+/* ===== 首页封面 ===== */
+.hero-section {
+  position:relative; width:100vw; min-height:100vh;
+  display:flex; flex-direction:column; justify-content:center; align-items:center;
+  text-align:center; z-index:1; overflow:hidden;
+}
+.hero-bg {
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse at 30% 50%, rgba(244,67,54,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 30%, rgba(183,28,28,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(128,245,230,0.04) 0%, transparent 40%),
+    radial-gradient(ellipse at 20% 80%, rgba(255,255,255,0.03) 0%, transparent 30%);
+  z-index:0;
+}
+.hero-stars {
+  position:absolute; inset:0; z-index:0;
+  background-image:
+    radial-gradient(1px 1px at 5% 10%, rgba(255,255,255,0.8) 0, transparent 100%),
+    radial-gradient(1.5px 1.5px at 15% 35%, rgba(255,255,255,0.6) 0, transparent 100%),
+    radial-gradient(1px 1px at 25% 60%, rgba(255,255,255,0.7) 0, transparent 100%),
+    radial-gradient(2px 2px at 40% 10%, rgba(255,255,255,0.5) 0, transparent 100%),
+    radial-gradient(1px 1px at 55% 70%, rgba(255,255,255,0.8) 0, transparent 100%),
+    radial-gradient(1.5px 1.5px at 70% 25%, rgba(255,255,255,0.6) 0, transparent 100%),
+    radial-gradient(1px 1px at 85% 55%, rgba(255,255,255,0.7) 0, transparent 100%),
+    radial-gradient(2px 2px at 95% 85%, rgba(255,255,255,0.5) 0, transparent 100%),
+    radial-gradient(1px 1px at 10% 90%, rgba(255,255,255,0.6) 0, transparent 100%),
+    radial-gradient(1.5px 1.5px at 45% 45%, rgba(255,255,255,0.7) 0, transparent 100%),
+    radial-gradient(1px 1px at 60% 5%, rgba(255,255,255,0.5) 0, transparent 100%),
+    radial-gradient(2px 2px at 80% 40%, rgba(255,255,255,0.6) 0, transparent 100%),
+    radial-gradient(1px 1px at 35% 85%, rgba(255,255,255,0.7) 0, transparent 100%),
+    radial-gradient(1.5px 1.5px at 90% 15%, rgba(255,255,255,0.5) 0, transparent 100%),
+    radial-gradient(1px 1px at 75% 90%, rgba(255,255,255,0.6) 0, transparent 100%);
+  animation: twinkle 8s ease-in-out infinite alternate;
+}
+@keyframes twinkle {
+  0% { opacity:0.6; }
+  100% { opacity:1; }
+}
+
+/* 星云流动 */
+.hero-nebula {
+  position:absolute; inset:0; z-index:0;
+  background:
+    radial-gradient(ellipse 600px 400px at 20% 40%, rgba(244,67,54,0.04) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 500px at 70% 60%, rgba(183,28,28,0.03) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 300px at 50% 20%, rgba(128,245,230,0.02) 0%, transparent 60%);
+  animation: nebulaFlow 20s ease-in-out infinite alternate;
+}
+@keyframes nebulaFlow {
+  0% { transform:scale(1) translate(0,0); }
+  50% { transform:scale(1.05) translate(1%,-1%); }
+  100% { transform:scale(1) translate(-0.5%,0.5%); }
+}
+
+/* 流星 */
+.meteor {
+  position:absolute; width:3px; height:3px;
+  background:#fff; border-radius:50%;
+  box-shadow:0 0 6px 2px rgba(244,67,54,0.6);
+  animation: meteorShoot 6s linear infinite;
+  z-index:1;
+}
+.meteor::after {
+  content:''; position:absolute; top:0;
+  width:100px; height:1px;
+  background:linear-gradient(90deg, rgba(255,255,255,0.4), transparent);
+  transform:rotate(0deg) translateX(-100%);
+}
+.meteor:nth-child(1) { top:10%; left:80%; animation-delay:0s; }
+.meteor:nth-child(2) { top:30%; left:90%; animation-delay:3s; }
+.meteor:nth-child(3) { top:60%; left:70%; animation-delay:5s; }
+@keyframes meteorShoot {
+  0% { transform:translate(0,0) rotate(-35deg); opacity:0; }
+  5% { opacity:1; }
+  15% { transform:translate(-300px,200px) rotate(-35deg); opacity:0; }
+  100% { transform:translate(-300px,200px) rotate(-35deg); opacity:0; }
+}
+
+.hero-content { position:relative; z-index:2; max-width:900px; padding:0 20px; }
+
+.hero-title {
+  font-size:clamp(2.2rem,5.5vw,4.5rem); font-weight:900;
+  line-height:1.3; margin-bottom:24px;
+  background:linear-gradient(135deg,#EF5350 0%,#FF8A80 40%,#EF5350 70%,#B71C1C 100%);
+  background-size:200% 200%;
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation: redPulse 4s ease-in-out infinite;
+  letter-spacing:4px;
+}
+@keyframes redPulse {
+  0% { background-position:0% 50%; }
+  50% { background-position:100% 50%; }
+  100% { background-position:0% 50%; }
+}
+
+.hero-subtitle {
+  font-size:clamp(0.9rem,1.8vw,1.3rem);
+  color:#E0E0E0; font-weight:400;
+  letter-spacing:3px; line-height:2;
+  margin-bottom:40px;
+}
+
+.hero-slogan {
+  font-size:clamp(1rem,2vw,1.5rem);
+  font-weight:500;
+  background:linear-gradient(90deg,#EF5350,#FF8A80,#B71C1C,#EF5350);
+  background-size:300% 100%;
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation: sloganFlow 6s linear infinite;
+  letter-spacing:2px;
+  margin-bottom:60px;
+}
+@keyframes sloganFlow {
+  0% { background-position:0% 50%; }
+  100% { background-position:300% 50%; }
+}
+
+.hero-scroll-hint {
+  position:absolute; bottom:40px; left:50%; transform:translateX(-50%);
+  color:rgba(255,255,255,0.4);
+  font-size:0.85rem; letter-spacing:4px;
+  animation: scrollBounce 2.5s ease-in-out infinite;
+  z-index:2;
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+}
+@keyframes scrollBounce {
+  0%,100% { transform:translateX(-50%) translateY(0); }
+  50% { transform:translateX(-50%) translateY(10px); }
+}
+.scroll-arrow { width:20px; height:20px; border-right:2px solid rgba(255,255,255,0.3); border-bottom:2px solid rgba(255,255,255,0.3); transform:rotate(45deg); animation: arrowPulse 2s ease-in-out infinite; }
+@keyframes arrowPulse {
+  0%,100% { opacity:0.3; }
+  50% { opacity:0.8; }
+}
+
+/* ===== 旗帜导航 ===== */
+.nav-bar {
+  position:fixed; top:0; left:0; width:100%; z-index:1000;
+  padding:16px 5%; display:flex; justify-content:center; gap:clamp(8px,2vw,40px);
+  background:rgba(13,10,15,0.8); backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(244,67,54,0.1);
+  flex-wrap:wrap;
+}
+.nav-bar a {
+  color:rgba(255,255,255,0.6); text-decoration:none;
+  font-size:0.85rem; letter-spacing:2px;
+  transition:all 0.3s; padding:4px 8px;
+  border-radius:4px;
+}
+.nav-bar a:hover { color:#EF5350; background:rgba(244,67,54,0.08); }
+
+/* ===== 模块二：人物基础档案 ===== */
+.profile-grid {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+  gap:24px; margin-top:40px;
+}
+.profile-card {
+  padding:32px; background:rgba(244,67,54,0.02);
+  border:1px solid rgba(244,67,54,0.08);
+  border-radius:16px; backdrop-filter:blur(8px);
+  transition:all 0.3s;
+}
+.profile-card:hover {
+  border-color:rgba(244,67,54,0.25);
+  transform:translateY(-4px);
+  box-shadow:0 12px 40px rgba(244,67,54,0.06);
+}
+.profile-label {
+  font-size:0.75rem; color:#90A4AE; letter-spacing:3px;
+  text-transform:uppercase; margin-bottom:8px;
+}
+.profile-value {
+  font-size:1.1rem; color:#FFFFFF; font-weight:500;
+  line-height:1.6;
+}
+.profile-value.gold { color:#FF8A80; }
+.profile-value.blue { color:#EF5350; }
+.profile-tag {
+  display:inline-block; padding:3px 14px;
+  border:1px solid rgba(244,67,54,0.3);
+  border-radius:20px; font-size:0.8rem;
+  color:#EF5350; margin:3px 4px;
+}
+.profile-tag.gold { border-color:rgba(255,138,128,0.3); color:#FF8A80; }
+
+/* ===== 人物肖像区 ===== */
+.portrait-section {
+  display:flex; flex-direction:column; align-items:center;
+  padding:80px 5% 40px; position:relative; z-index:1;
+}
+.portrait-image {
+  max-width:400px; width:100%; border-radius:20px;
+  border:2px solid rgba(244,67,54,0.3);
+  box-shadow:0 20px 80px rgba(244,67,54,0.2), 0 0 40px rgba(244,67,54,0.1);
+  margin-bottom:24px;
+  transition:all 0.5s ease;
+}
+.portrait-image:hover {
+  transform:scale(1.02);
+  box-shadow:0 30px 100px rgba(244,67,54,0.3), 0 0 60px rgba(244,67,54,0.15);
+  border-color:rgba(244,67,54,0.6);
+}
+.portrait-caption {
+  font-size:0.85rem; color:#90A4AE; letter-spacing:4px;
+  text-align:center;
+}
+
+/* ===== 模块三：时间线 ===== */
+.timeline-section { position:relative; }
+.timeline-track { position:relative; max-width:900px; margin:0 auto; padding:20px 0; }
+.timeline-line {
+  position:absolute; left:50%; top:0; bottom:0;
+  width:2px; background:linear-gradient(180deg,#EF5350,#B71C1C,#EF5350);
+  transform:translateX(-50%);
+  animation: lineGlow 4s ease-in-out infinite;
+}
+@keyframes lineGlow {
+  0%,100% { opacity:0.4; }
+  50% { opacity:1; }
+}
+.timeline-item {
+  display:flex; align-items:flex-start;
+  margin-bottom:50px; position:relative;
+}
+.timeline-item:nth-child(odd) { flex-direction:row; }
+.timeline-item:nth-child(even) { flex-direction:row-reverse; }
+.timeline-dot {
+  position:absolute; left:50%; transform:translateX(-50%);
+  width:16px; height:16px; border-radius:50%;
+  background:#0d0a0f; border:3px solid #EF5350;
+  z-index:2; box-shadow:0 0 12px rgba(244,67,54,0.3);
+  top:10px;
+}
+.timeline-dot.highlight {
+  border-color:#FF8A80; background:#0d0a0f;
+  box-shadow:0 0 20px rgba(255,138,128,0.5), 0 0 40px rgba(255,138,128,0.2);
+  animation: dotPulse 2s ease-in-out infinite;
+}
+@keyframes dotPulse {
+  0%,100% { box-shadow:0 0 20px rgba(255,138,128,0.5); }
+  50% { box-shadow:0 0 40px rgba(255,138,128,0.8), 0 0 60px rgba(255,138,128,0.3); }
+}
+.timeline-content {
+  width:calc(50% - 50px); padding:24px;
+  background:rgba(244,67,54,0.02);
+  border:1px solid rgba(244,67,54,0.08);
+  border-radius:12px; backdrop-filter:blur(8px);
+  transition:all 0.3s;
+}
+.timeline-content:hover {
+  border-color:rgba(244,67,54,0.25);
+  transform:translateY(-4px);
+  box-shadow:0 12px 40px rgba(244,67,54,0.06);
+}
+.timeline-year {
+  font-size:1.3rem; font-weight:900; letter-spacing:2px;
+  margin-bottom:8px;
+}
+.timeline-year.gold { color:#FF8A80; }
+.timeline-year.blue { color:#EF5350; }
+.timeline-year.green { color:#80F5E6; }
+.timeline-desc { font-size:0.9rem; color:#E0E0E0; line-height:1.7; }
+.timeline-desc strong { color:#EF5350; }
+.timeline-desc .gold-text { color:#FF8A80; }
+
+/* ===== 模块四：人物关系图谱 ===== */
+.relation-section { position:relative; }
+.relation-container {
+  position:relative; width:100%; min-height:700px;
+  display:flex; align-items:center; justify-content:center;
+}
+.relation-center {
+  position:relative; z-index:3;
+  width:100px; height:100px; border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, rgba(255,138,128,0.3), rgba(244,67,54,0.1));
+  border:2px solid #FF8A80;
+  display:flex; align-items:center; justify-content:center;
+  font-size:0.9rem; font-weight:700; color:#FF8A80;
+  text-align:center; letter-spacing:2px;
+  box-shadow:0 0 30px rgba(255,138,128,0.3), 0 0 60px rgba(255,138,128,0.1);
+  animation: centerPulse 3s ease-in-out infinite;
+  cursor:pointer;
+}
+@keyframes centerPulse {
+  0%,100% { box-shadow:0 0 30px rgba(255,138,128,0.3), 0 0 60px rgba(255,138,128,0.1); }
+  50% { box-shadow:0 0 50px rgba(255,138,128,0.5), 0 0 80px rgba(255,138,128,0.2); }
+}
+.relation-nodes { position:absolute; inset:0; }
+.relation-node {
+  position:absolute; z-index:2;
+  padding:12px 18px; border-radius:12px;
+  background:rgba(13,10,15,0.9);
+  border:1px solid rgba(244,67,54,0.15);
+  backdrop-filter:blur(8px);
+  cursor:pointer; transition:all 0.3s;
+  font-size:0.85rem; color:#E0E0E0;
+  text-align:center; min-width:100px;
+}
+.relation-node:hover {
+  border-color:#EF5350;
+  box-shadow:0 0 20px rgba(244,67,54,0.2);
+  transform:scale(1.08);
+  z-index:5;
+}
+.relation-node .node-name { color:#EF5350; font-weight:700; font-size:0.95rem; margin-bottom:2px; }
+.relation-node .node-role { font-size:0.7rem; color:#90A4AE; letter-spacing:1px; }
+.relation-node.highlight { border-color:#FF8A80; }
+.relation-node.highlight .node-name { color:#FF8A80; }
+.relation-lines { position:absolute; inset:0; z-index:1; pointer-events:none; }
+.relation-line-svg { width:100%; height:100%; position:absolute; top:0; left:0; }
+.rel-line { stroke:rgba(244,67,54,0.15); stroke-width:1; fill:none; transition:all 0.3s; }
+.rel-line.active { stroke:rgba(244,67,54,0.5); stroke-width:1.5; }
+
+/* ===== 模块五：象征意义 ===== */
+.symbol-grid {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:24px;
+}
+.symbol-card {
+  padding:36px 28px; text-align:center;
+  background:rgba(244,67,54,0.02);
+  border:1px solid rgba(244,67,54,0.08);
+  border-radius:16px; backdrop-filter:blur(8px);
+  transition:all 0.3s;
+}
+.symbol-card:hover {
+  border-color:rgba(244,67,54,0.25);
+  transform:translateY(-6px);
+  box-shadow:0 20px 50px rgba(244,67,54,0.06);
+}
+.symbol-icon {
+  font-size:2.5rem; margin-bottom:16px;
+}
+.symbol-card h3 {
+  font-size:1.2rem; color:#FF8A80; margin-bottom:12px;
+  font-weight:700; letter-spacing:2px;
+}
+.symbol-card p {
+  font-size:0.9rem; color:#E0E0E0; line-height:1.8;
+  text-align:left;
+}
+
+/* ===== 模块六：经典台词 ===== */
+.quote-section { position:relative; }
+.quote-grid {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+  gap:24px;
+}
+.quote-card {
+  padding:36px 28px;
+  background:rgba(244,67,54,0.02);
+  border:1px solid rgba(244,67,54,0.08);
+  border-left:3px solid #FF8A80;
+  border-radius:0 16px 16px 0;
+  backdrop-filter:blur(8px);
+  transition:all 0.3s;
+}
+.quote-card:hover {
+  border-color:rgba(255,138,128,0.3);
+  transform:translateY(-4px);
+  box-shadow:0 12px 40px rgba(244,67,54,0.06);
+}
+.quote-text {
+  font-size:1.05rem; color:#FF8A80; font-weight:500;
+  line-height:1.8; letter-spacing:1px;
+  margin-bottom:16px; font-style:normal;
+}
+.quote-context {
+  font-size:0.8rem; color:#90A4AE; letter-spacing:1px;
+}
+
+/* ===== 页脚 ===== */
+.footer {
+  text-align:center; padding:60px 5%; position:relative; z-index:1;
+  border-top:1px solid rgba(244,67,54,0.06);
+}
+.footer p {
+  color:#90A4AE; font-size:0.8rem; letter-spacing:2px; line-height:2;
+}
+.footer .footer-highlight { color:#EF5350; }
+
+/* ===== 响应式 ===== */
+@media(max-width:768px) {
+  .section-padding { padding:60px 5%; }
+  .section-title { font-size:1.6rem; }
+  .timeline-item:nth-child(odd),
+  .timeline-item:nth-child(even) { flex-direction:row; }
+  .timeline-content { width:calc(100% - 60px); margin-left:50px; }
+  .timeline-line { left:20px; transform:none; }
+  .timeline-dot { left:20px; transform:translateX(-50%); }
+  .timeline-item:nth-child(odd) .timeline-content,
+  .timeline-item:nth-child(even) .timeline-content { width:calc(100% - 60px); margin-left:50px; }
+  .profile-grid, .symbol-grid, .quote-grid { grid-template-columns:1fr; }
+  .relation-container { min-height:900px; }
+  .nav-bar { gap:6px; padding:12px 3%; }
+  .nav-bar a { font-size:0.7rem; letter-spacing:1px; }
+  .portrait-image { max-width:280px; }
+}
+@media(max-width:768px) {
+  .relation-node { font-size:0.7rem; padding:8px 10px; min-width:70px; }
+  .relation-center { width:60px; height:60px; font-size:0.65rem; }
+}
+
+/* ===== 红岸信号发射交互 ===== */
+.signal-section { position:relative; z-index:1; padding:80px 5%; text-align:center; overflow:hidden; }
+.signal-dish { position:relative; width:280px; height:280px; margin:0 auto 40px; display:flex; align-items:center; justify-content:center; }
+.signal-dish-bowl { width:200px; height:100px; border:3px solid rgba(244,67,54,0.6); border-radius:50%/50% 50% 0 0; border-bottom:none; position:relative; margin-top:40px; background:radial-gradient(ellipse at 50% 30%, rgba(244,67,54,0.1), transparent); animation: dishTilt 6s ease-in-out infinite alternate; }
+.signal-dish-bowl::after { content:""; position:absolute; bottom:-20px; left:50%; transform:translateX(-50%); width:4px; height:40px; background:linear-gradient(to bottom, #EF5350, #B71C1C); border-radius:2px; }
+.signal-dish-feed { position:absolute; top:-10px; left:50%; transform:translateX(-50%); width:12px; height:12px; background:#EF5350; border-radius:50%; box-shadow:0 0 20px rgba(244,67,54,0.8), 0 0 60px rgba(244,67,54,0.3); z-index:2; }
+.signal-wave { position:absolute; top:50%; left:50%; width:0; height:0; border-radius:50%; border:1px solid rgba(244,67,54,0.5); transform:translate(-50%,-50%); pointer-events:none; opacity:0; }
+.signal-wave.active { animation: waveExpand 2.5s ease-out forwards; }
+@keyframes waveExpand { 0% { width:0; height:0; opacity:0.8; border-width:2px; } 100% { width:600px; height:600px; opacity:0; border-width:1px; } }
+@keyframes dishTilt { 0%,100% { transform:rotate(-2deg); } 50% { transform:rotate(2deg); } }
+.signal-btn { display:inline-flex; align-items:center; gap:12px; padding:16px 40px; border:2px solid #EF5350; background:rgba(244,67,54,0.1); color:#EF5350; font-size:1.1rem; font-weight:700; letter-spacing:4px; border-radius:40px; cursor:pointer; transition:all 0.4s; font-family:inherit; position:relative; z-index:2; }
+.signal-btn:hover { background:rgba(244,67,54,0.2); box-shadow:0 0 30px rgba(244,67,54,0.3); }
+.signal-btn:disabled { opacity:0.4; cursor:not-allowed; }
+.signal-btn-icon { display:inline-block; }
+.signal-btn.sending .signal-btn-icon { animation: spinPulse 1s ease-in-out infinite; }
+@keyframes spinPulse { 0% { transform:rotate(0deg) scale(1); } 50% { transform:rotate(180deg) scale(1.3); } 100% { transform:rotate(360deg) scale(1); } }
+.signal-counter { margin-top:12px; font-size:0.8rem; color:#90A4AE; letter-spacing:2px; }
+.signal-result { margin-top:40px; padding:30px; max-width:700px; margin-left:auto; margin-right:auto; border-radius:16px; display:none; transition:all 0.5s ease; }
+.signal-result.show { display:block; animation: resultReveal 1s ease-out; }
+@keyframes resultReveal { 0% { opacity:0; transform:translateY(20px); } 100% { opacity:1; transform:translateY(0); } }
+.signal-result.warning { background:rgba(244,67,54,0.08); border:2px solid rgba(244,67,54,0.4); }
+.signal-result .result-title { font-size:1.8rem; font-weight:900; letter-spacing:6px; color:#EF5350; margin-bottom:16px; text-shadow:0 0 30px rgba(244,67,54,0.4); }
+.signal-result .result-text { font-size:1rem; color:#E0E0E0; line-height:1.8; font-family:Noto Serif SC,serif; }
+.signal-result .result-warning { font-size:1.4rem; font-weight:900; color:#EF5350; letter-spacing:8px; margin-top:16px; animation:warningFlash 1s ease-in-out infinite alternate; }
+@keyframes warningFlash { 0% { opacity:0.4; text-shadow:0 0 10px rgba(244,67,54,0.3); } 100% { opacity:1; text-shadow:0 0 40px rgba(244,67,54,0.8),0 0 80px rgba(244,67,54,0.3); } }
+.signal-timeline { margin-top:30px; display:flex; flex-direction:column; gap:16px; max-width:600px; margin:30px auto 0; }
+.signal-timeline-step { display:flex; align-items:center; gap:16px; text-align:left; padding:16px 20px; background:rgba(244,67,54,0.03); border:1px solid rgba(244,67,54,0.1); border-radius:12px; opacity:0; transform:translateX(-20px); transition:all 0.5s ease; }
+.signal-timeline-step.visible { opacity:1; transform:translateX(0); }
+.signal-step-num { width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.85rem; font-weight:700; flex-shrink:0; }
+.signal-step-num.gold { background:#FF8A80; color:#0d0a0f; }
+.signal-step-num.blue { background:#EF5350; color:#fff; }
+.signal-step-text { font-size:0.9rem; color:#E0E0E0; line-height:1.6; }
+
+/* ===== ETO组织架构 ===== */
+.eto-section { position:relative; z-index:1; }
+.eto-tree { display:flex; flex-direction:column; align-items:center; gap:40px; padding:40px 0; }
+.eto-root { text-align:center; position:relative; z-index:2; max-width:500px; width:100%; }
+.eto-root-card { background:rgba(244,67,54,0.06); border:2px solid #EF5350; border-radius:20px; padding:24px 36px; box-shadow:0 0 30px rgba(244,67,54,0.15); animation: rootPulse 3s ease-in-out infinite; }
+@keyframes rootPulse { 0%,100% { box-shadow:0 0 30px rgba(244,67,54,0.15); } 50% { box-shadow:0 0 50px rgba(244,67,54,0.25),0 0 80px rgba(244,67,54,0.1); } }
+.eto-root-card .eto-title { font-size:1.6rem; font-weight:900; color:#EF5350; letter-spacing:6px; }
+.eto-root-card .eto-sub { font-size:0.85rem; color:#90A4AE; letter-spacing:3px; margin-top:6px; }
+.eto-root-card .eto-code { font-family:monospace; font-size:0.7rem; color:rgba(239,83,80,0.5); letter-spacing:4px; margin-top:10px; }
+.eto-branches { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; width:100%; max-width:900px; }
+.eto-branch { background:rgba(244,67,54,0.02); border:1px solid rgba(244,67,54,0.12); border-radius:16px; padding:28px 20px; text-align:center; transition:all 0.4s; }
+.eto-branch:hover { transform:translateY(-8px); border-color:rgba(244,67,54,0.4); box-shadow:0 15px 40px rgba(244,67,54,0.1); }
+.eto-branch-icon { font-size:2.2rem; margin-bottom:12px; }
+.eto-branch-name { font-size:1.2rem; font-weight:700; letter-spacing:3px; margin-bottom:4px; }
+.eto-branch-name.fall { color:#EF5350; }
+.eto-branch-name.save { color:#FF8A80; }
+.eto-branch-name.survive { color:#80F5E6; }
+.eto-branch-desc { font-size:0.85rem; color:#90A4AE; line-height:1.7; margin-bottom:12px; }
+.eto-branch-people { font-size:0.8rem; color:rgba(255,255,255,0.4); line-height:1.6; }
+.eto-branch-people strong { color:rgba(255,255,255,0.6); }
+
+/* ===== 原著原文选段 ===== */
+.excerpt-section { position:relative; z-index:1; }
+.excerpt-card { padding:36px 32px; margin-bottom:24px; background:rgba(244,67,54,0.02); border:1px solid rgba(244,67,54,0.08); border-radius:12px; backdrop-filter:blur(8px); transition:all 0.3s; }
+.excerpt-card:hover { border-color:rgba(244,67,54,0.2); box-shadow:0 8px 30px rgba(244,67,54,0.04); }
+.excerpt-source { font-size:0.8rem; color:#EF5350; letter-spacing:3px; margin-bottom:12px; font-weight:500; }
+.excerpt-body { font-family:Noto Serif SC,Source Han Serif SC,serif; font-size:1rem; color:#E0E0E0; line-height:2.2; text-indent:2em; margin-bottom:12px; }
+.excerpt-context { font-size:0.8rem; color:#90A4AE; letter-spacing:1px; border-top:1px solid rgba(244,67,54,0.06); padding-top:12px; margin-top:12px; }
+
+/* ===== 响应式补充 ===== */
+@media(max-width:768px) {
+  .eto-branches { grid-template-columns:1fr; gap:16px; }
+  .signal-dish { width:200px; height:200px; }
+  .signal-dish-bowl { width:150px; height:70px; }
+  @keyframes waveExpand {
+    0% { width:0; height:0; opacity:0.8; border-width:2px; }
+    100% { width:400px; height:400px; opacity:0; border-width:1px; }
+  }
+  .signal-result .result-title { font-size:1.3rem; }
+  .eto-root-card .eto-title { font-size:1.2rem; }
+  .excerpt-body { font-size:0.95rem; }
+}
+
+/* ===== 时间线侧边图片布局 ===== */
+.timeline-content-flex {
+  display:flex !important; gap:20px; align-items:flex-start; width:100%;
+}
+.timeline-text-col { flex:1; min-width:0; }
+.timeline-img-side {
+  width:150px; min-width:150px; height:auto;
+  border-radius:10px; margin-top:4px;
+  border:1px solid rgba(244,67,54,0.2);
+  box-shadow:0 4px 16px rgba(0,0,0,0.3);
+  transition:all 0.4s ease;
+}
+.timeline-img-side:hover {
+  transform:scale(1.05);
+  box-shadow:0 8px 30px rgba(244,67,54,0.25);
+  border-color:rgba(244,67,54,0.5);
+}
+.timeline-item:nth-child(even) .timeline-content-flex {
+  flex-direction:row-reverse;
+}
+@media(max-width:768px) {
+  .timeline-content-flex { flex-direction:column !important; }
+  .timeline-img-side { width:100%; max-width:180px; margin:12px auto 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- 粒子画布 -->
+
+/* ===== 时间线图片 ===== */
+.timeline-img {
+  display:block; max-width:200px; width:100%; height:auto;
+  border-radius:10px; margin:16px auto 4px;
+  border:1px solid rgba(244,67,54,0.15);
+  box-shadow:0 6px 20px rgba(0,0,0,0.35), 0 0 0 1px rgba(244,67,54,0.05) inset;
+  transition:all 0.4s ease;
+  object-fit:cover;
+.timeline-img:hover {
+  transform:scale(1.05);
+  box-shadow:0 10px 35px rgba(244,67,54,0.25);
+  border-color:rgba(244,67,54,0.4);
+}
+@media(max-width:768px) { .timeline-img { max-width:150px; } }
+<canvas id="particle-canvas"></canvas>
+
+<!-- 导航 -->
+<nav class="nav-bar">
+  <a href="#home">首页</a>
+  <a href="#portrait">人物肖像</a>
+  <a href="#profile">人物档案</a>
+  <a href="#timeline">生命时间线</a>
+  <a href="#relations">关系图谱</a>
+  <a href="#symbolism">象征意义</a>
+  <a href="#quotes">经典台词</a>
+  <a href="#signal">红岸信号</a>
+  <a href="#eto">ETO架构</a>
+  <a href="#excerpts">原文选段</a>
+</nav>
+
+<!-- ===== 首页封面 ===== -->
+<section id="home" class="hero-section">
+  <div class="hero-bg"></div>
+  <div class="hero-stars"></div>
+  <div class="hero-nebula"></div>
+  <div class="meteor"></div>
+  <div class="meteor"></div>
+  <div class="meteor"></div>
+  <div class="hero-content fade-up">
+    <div class="hero-title">叶文洁<br>从人间炼狱，到宇宙回响，终为文明奠基</div>
+    <div class="hero-subtitle">《三体》核心灵魂人物 · 人类文明命运的逆行者 · 三体文明入侵的引路人</div>
+    <div class="hero-slogan">她向宇宙发出了一声叹息，却引来了一个文明的毁灭与重生</div>
+  </div>
+  <div class="hero-scroll-hint">
+    <span>滚动探索她跨越苦难与救赎的一生</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+<!-- ===== 红岸信号发射交互 ===== -->
+<section id="signal" class="signal-section fade-up">
+  <div class="container">
+    <h2 class="section-title fade-up">红岸基地 · 向宇宙发出回响</h2>
+    <p style="text-align:center;color:#90A4AE;font-size:0.85rem;letter-spacing:2px;margin-bottom:40px;">点击发送按钮，再现那改变人类命运的瞬间</p>
+    <div class="signal-dish fade-up">
+      <div class="signal-dish-bowl">
+        <div class="signal-dish-feed"></div>
+      </div>
+      <div class="signal-wave" id="signalWave"></div>
+    </div>
+    <button class="signal-btn" id="signalBtn">
+      <span class="signal-btn-icon">&#9651;</span>
+      发送信号
+    </button>
+    <div class="signal-counter" id="signalCounter"></div>
+    <div class="signal-result" id="signalResult">
+      <div class="result-title">信号已发送至宇宙深处</div>
+      <div class="result-text">
+        1979年，叶文洁利用红岸基地的太阳放大功能，向宇宙深处发出了人类文明的第一封问候信。
+        电磁波以光速传播，四光年后被三体文明截获。人类文明的坐标就此暴露，
+        两个文明的生死博弈自此拉开帷幕。
+      </div>
+      <div class="result-warning">不要回答！不要回答！！不要回答！！！</div>
+      <div class="signal-timeline">
+        <div class="signal-timeline-step" id="step1">
+          <div class="signal-step-num gold">1</div>
+          <div class="signal-step-text">叶文洁启动红岸基地发射序列，锁定太阳作为超级天线</div>
+        </div>
+        <div class="signal-timeline-step" id="step2">
+          <div class="signal-step-num gold">2</div>
+          <div class="signal-step-text">以太阳为放大器，向宇宙深处发射大功率电磁波信号</div>
+        </div>
+        <div class="signal-timeline-step" id="step3">
+          <div class="signal-step-num gold">3</div>
+          <div class="signal-step-text">信号经过4.2光年，被正在监听的三体文明截获</div>
+        </div>
+        <div class="signal-timeline-step" id="step4">
+          <div class="signal-step-num blue">4</div>
+          <div class="signal-step-text">三体世界通过智子发回警告：不要回答！不要回答！！不要回答！！！</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 人物肖像区 ===== -->
+<section id="portrait" class="portrait-section fade-up">
+  <img src="yewenjie.jpg" alt="叶文洁人物肖像" class="portrait-image">
+  <p class="portrait-caption">叶文洁 · 红岸基地天体物理学家 · 地球往事见证者</p>
+</section>
+
+<!-- ===== 模块二：人物基础档案 ===== -->
+<section id="profile" class="section-padding">
+  <div class="container">
+    <h2 class="section-title fade-up">人物基础档案</h2>
+    <div class="profile-grid">
+      <div class="profile-card card-hover fade-up">
+        <div class="profile-label">姓名</div>
+        <div class="profile-value blue">叶文洁</div>
+      </div>
+      <div class="profile-card card-hover fade-up">
+        <div class="profile-label">英文标识</div>
+        <div class="profile-value gold">YE WENJIE <span style="color:#90A4AE;font-size:0.8rem;">—— 命运之手、转折之人</span></div>
+      </div>
+      <div class="profile-card card-hover fade-up">
+        <div class="profile-label">生卒纪年</div>
+        <div class="profile-value">公元 <span class="gold-text" style="color:#FF8A80;">1943年</span> — 危机纪元 <span class="gold-text" style="color:#FF8A80;">8年</span></div>
+      </div>
+      <div class="profile-card card-hover fade-up" style="grid-column:1/-1;">
+        <div class="profile-label">核心身份（按剧情递进）</div>
+        <div class="profile-value" style="font-size:0.95rem;line-height:2;">
+          <span class="profile-tag gold">清华大学天体物理研究生</span>
+          <span class="profile-tag">红岸基地关键研究人员</span>
+          <span class="profile-tag gold">ETO（地球三体组织）统帅</span>
+          <span class="profile-tag">宇宙社会学的启蒙者</span>
+          <span class="profile-tag gold">黑暗森林法则的间接奠基人</span>
+          <span class="profile-tag">三体文明入侵的推动者</span>
+          <span class="profile-tag">人类命运的终极审判者</span>
+        </div>
+      </div>
+      <div class="profile-card card-hover fade-up" style="grid-column:1/-1;">
+        <div class="profile-label">性格核心</div>
+        <div class="profile-value" style="font-size:0.9rem;color:#E0E0E0;">
+          外表冷峻理性、内心饱含伤痕，对人类的劣根性与文明的虚伪感到绝望；<br>
+          兼具科学家的冷静与理想主义者的偏执，既渴望救赎又亲手将人类推向深渊
+        </div>
+      </div>
+      <div class="profile-card card-hover fade-up" style="grid-column:1/-1;">
+        <div class="profile-label">原著专属标签</div>
+        <div class="profile-value">
+          <span class="profile-tag gold">向宇宙打招唿的第一人</span>
+          <span class="profile-tag gold">地球文明末日的直接推手</span>
+          <span class="profile-tag gold">极端理想主义的复仇者</span>
+          <span class="profile-tag gold">善恶争议最大的人物</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 模块三：全生命周期时间线 ===== -->
+<section id="timeline" class="section-padding" style="background:rgba(244,67,54,0.01);">
+  <div class="container">
+    <h2 class="section-title fade-up">全生命周期时间线</h2>
+    <p style="text-align:center;color:#90A4AE;font-size:0.85rem;letter-spacing:2px;margin-bottom:40px;">—— 原著纪年精准复刻 · 每一个节点都凝聚着文明的重量 ——</p>
+    <div class="timeline-track">
+
+      <!-- 少年时代 -->
+      <div class="timeline-item fade-up">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content timeline-content-flex" style="margin-left:auto;">
+          <div class="timeline-text-col">
+          <div class="timeline-year green">1943年</div>
+          <div class="timeline-desc">叶文洁出生于高级知识分子家庭，父亲叶哲泰为著名物理学家，母亲绍琳为天体物理学者，天生与科学结下不解之缘</div>
+          </div>
+          <img src="tl_1943.png" class="timeline-img-side" loading="lazy">
+        </div>
+      </div>
+
+      <div class="timeline-item fade-up">
+        <div class="timeline-dot highlight"></div>
+        <div class="timeline-content timeline-content-flex" style="border-color:rgba(255,138,128,0.2);">
+          <div class="timeline-text-col">
+          <div class="timeline-year gold">1967年 · 核心创伤</div>
+          <div class="timeline-desc"><strong>文化大革命</strong> 爆发，父亲叶哲泰因学术观点遭受批斗，被红卫兵活活打死。母亲绍琳为自保急于划清界限、揭发丈夫。叶文洁亲眼目睹父亲惨死、母亲背叛，对人类社会产生 <span class="gold-text">刻骨铭心的绝望</span>，这是其一生命运的根源转折点</div>
+          </div>
+          <img src="tl_1969.png" class="timeline-img-side" loading="lazy">
+        </div>
+      </div>
+
+      <!-- 红岸基地 -->
+      <div class="timeline-item fade-up">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-year blue">1969年</div>
+          <div class="timeline-desc">被分派至内蒙古生产建设兵团，在极端艰苦环境中度过三年，亲眼目睹人性的自私、残忍与蒙昧，对人类文明的绝望进一步加深</div>
+        </div>
+      </div>
+
+      <div class="timeline-item fade-up">
+        <div class="timeline-dot highlight"></div>
+        <div class="timeline-content timeline-content-flex" style="margin-left:auto;border-color:rgba(255,138,128,0.2);">
+          <div class="timeline-text-col">
+          <div class="timeline-year gold">1971年 · 命运转折</div>
+          <div class="timeline-desc">因天体物理学背景，被秘密征召至大兴安岭 <span class="gold-text">红岸基地</span>，参与代号"红岸工程"的绝密外星文明搜索计划。这是她一生宿命的真正起点</div>
+          </div>
+          <img src="tl_1971.png" class="timeline-img-side" loading="lazy">
+        </div>
+      </div>
+
+      <div class="timeline-item fade-up">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-year blue">1971-1979年</div>
+          <div class="timeline-desc">在红岸基地潜心研究，排除众议发现了太阳可以作为超级天线放大信号的原理，独立完成重大的技术突破。期间与同事杨卫宁相识，后结为夫妻</div>
+        </div>
+      </div>
+
+      <div class="timeline-item fade-up">
+        <div class="timeline-dot highlight"></div>
+        <div class="timeline-content timeline-content-flex" style="margin-left:auto;border-color:rgba(255,138,128,0.2);">
+          <div class="timeline-text-col">
+          <div class="timeline-year gold">1979年 · 终极抉择</div>
+          <div class="timeline-desc">利用太阳放大功能，向宇宙深处发出 <span class="gold-text">人类文明的第一封问候信</span>，暴露了地球文明的坐标。信号被 <span class="gold-text">三体文明</span> 截获，从此开启了两个文明跨越数百年的生死博弈——人类的末日，自此开始</div>
+          </div>
+          <img src="tl_1979.png" class="timeline-img-side" loading="lazy">
+        </div>
+      </div>
+
+      <div class="timeline-item fade-up">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-year blue">1979年-1980年代初</div>
+          <div class="timeline-desc">收到三体文明回信，读到"不要回答！不要回答！！不要回答！！！"的警告。但在对人类彻底绝望的心态下，<strong>再次发送信息</strong>确认了地球坐标，欢迎三体文明前来"改造"人类世界</div>
+        </div>
+      </div>
+
+      <!-- ETO时代 -->
+      <div class="timeline-item fade-up">
+        <div class="timeline-dot highlight"></div>
+        <div class="timeline-content timeline-content-flex" style="border-color:rgba(255,138,128,0.2);">
+          <div class="timeline-text-col">
+          <div class="timeline-year gold">1980年代 · ETO创立</div>
+          <div class="timeline-desc">利用杨卫宁之死（事件为意外，但叶文洁负有间接责任）和自身在天体物理学界的资源，秘密创立 <span class="gold-text">地球三体运动（ETO）</span>，聚集了对人类文明失望的理想主义者，成为ETO的绝对统帅</div>
+          </div>
+          <img src="tl_1980.png" class="timeline-img-side" loading="lazy">
+        </div>
+      </div>
+
+      <div class="timeline-item fade-up">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content" style="margin-left:auto;">
+          <div class="timeline-year blue">1980年代-2007年</div>
+          <div class="timeline-desc">暗中经营ETO多年，发展了三体降临派、拯救派、幸存派三大分支，构建了世界范围的秘密组织网络。同时淡出公众视野，表面作为清华大学退休教授安度晚年</div>
+        </div>
+      </div>
+
+      <div class="timeline-item fade-up">
+        <div class="timeline-dot highlight"></div>
+        <div class="timeline-content timeline-content-flex" style="border-color:rgba(255,138,128,0.2);">
+          <div class="timeline-text-col">
+          <div class="timeline-year gold">危机纪元3年 · 最后一课</div>
+          <div class="timeline-desc">在杨冬墓前偶遇罗辑，面对这个唯一让她抱有希望的学生，讲述了 <span class="gold-text">宇宙社会学两大公理</span>：生存是文明的第一需要；文明不断增长和扩张，但宇宙中的物质总量保持不变。留下关于猜疑链、技术爆炸的伏笔，这是她对人类文明最后的馈赠，也成为罗辑推导黑暗森林法则的关键钥匙</div>
+          </div>
+          <img src="tl_crisis3.png" class="timeline-img-side" loading="lazy">
+        </div>
+      </div>
+
+      <div class="timeline-item fade-up">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content" style="margin-left:auto;">
+          <div class="timeline-year blue">危机纪元3年 · 被捕与终结</div>
+          <div class="timeline-desc">ETO组织被破获，叶文洁被捕。在审讯中平静坦诚了自己的全部行为，不愿反抗、没有辩解。<strong>人类的审判者，坦然接受了自己的审判</strong>。后在拘留所中因器官衰竭去世（在等待女儿杨冬的遗体告别时）</div>
+        </div>
+      </div>
+
+      <div class="timeline-item fade-up">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content timeline-content-flex">
+          <div class="timeline-text-col">
+          <div class="timeline-year green">危机纪元8年 · 逝世</div>
+          <div class="timeline-desc">叶文洁在拘留所中去世，终其一生，她既是 <span class="gold-text">人类文明的毁灭者</span>，也是 <span class="gold-text">宇宙真相的探索者</span>，身后留下的宇宙社会学遗训，最终成为罗辑拯救人类文明的理论基石</div>
+          </div>
+          <img src="tl_crisis8.png" class="timeline-img-side" loading="lazy">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== 模块四：人物关系图谱 ===== -->
+<section id="relations" class="section-padding relation-section">
+  <div class="container">
+    <h2 class="section-title fade-up">人物关系图谱</h2>
+    <p style="text-align:center;color:#90A4AE;font-size:0.85rem;letter-spacing:2px;margin-bottom:30px;">—— 悬浮人物节点 · 高亮关联羁绊 ——</p>
+    <div class="relation-container fade-up" id="relationContainer">
+      <div class="relation-lines" id="relationLines">
+        <svg class="relation-line-svg" id="relationSvg"></svg>
+      </div>
+      <div class="relation-nodes" id="relationNodes">
+        <!-- 中心节点 -->
+        <div class="relation-center" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);">叶文洁</div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ===== ETO组织架构可视化 ===== -->
+<section id="eto" class="section-padding eto-section">
+  <div class="container">
+    <h2 class="section-title fade-up">地球三体组织（ETO）架构</h2>
+    <p style="text-align:center;color:#90A4AE;font-size:0.85rem;letter-spacing:2px;margin-bottom:20px;">叶文洁亲手缔造的跨世纪秘密组织</p>
+    <div class="eto-tree fade-up">
+      <div class="eto-root">
+        <div class="eto-root-card">
+          <div class="eto-title">叶文洁</div>
+          <div class="eto-sub">ETO 最高统帅 · 精神领袖</div>
+          <div class="eto-code">CLASSIFIED -- 权限等级：&#937;</div>
+        </div>
+      </div>
+      <div class="eto-branches">
+        <div class="eto-branch card-hover">
+          <div class="eto-branch-icon">&#9760;</div>
+          <div class="eto-branch-name fall">降临派</div>
+          <div class="eto-branch-desc">对人类社会极度憎恶，希望通过三体文明的降临彻底摧毁人类统治秩序。主张三体人接管地球，人类接受奴役或灭绝。</div>
+          <div class="eto-branch-people">代表人物：<strong>伊文斯 · 潘寒</strong></div>
+        </div>
+        <div class="eto-branch card-hover">
+          <div class="eto-branch-icon">&#10013;</div>
+          <div class="eto-branch-name save">拯救派</div>
+          <div class="eto-branch-desc">相信三体文明是更高层次的存在，希望通过三体人的力量拯救人类精神的堕落。泛神论倾向，将三体神化为改造人类世界的救世主。</div>
+          <div class="eto-branch-people">代表人物：<strong>申玉菲 · 魏成</strong></div>
+        </div>
+        <div class="eto-branch card-hover">
+          <div class="eto-branch-icon">&#9733;</div>
+          <div class="eto-branch-name survive">幸存派</div>
+          <div class="eto-branch-desc">纯粹出于生存目的加入ETO，相信三体舰队终将抵达，提前站队以换取个人及后代在末日后的生存机会。人数最多但组织最松散。</div>
+          <div class="eto-branch-people">代表人物：<strong>众多投机追随者</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 模块五：人物象征意义与内核解读 ===== -->
+<section id="symbolism" class="section-padding" style="background:rgba(244,67,54,0.01);">
+  <div class="container">
+    <h2 class="section-title fade-up">人物象征意义与内核解读</h2>
+    <p style="text-align:center;color:#90A4AE;font-size:0.85rem;letter-spacing:2px;margin-bottom:40px;">—— 以红色为基调 · 她的人生是血与火的淬炼 ——</p>
+    <div class="symbol-grid">
+
+      <div class="symbol-card card-hover fade-up">
+        <div class="symbol-icon">🔥</div>
+        <h3>文明创伤的聚合体</h3>
+        <p>叶文洁是时代悲剧的化身。她的父亲在文革中被活活打死，母亲背叛丈夫划清界限，她在苦难中目睹了人性最黑暗的一面。文明对她的伤害，成为她报复文明的根源动力。正是人类的恶，催生了她背叛人类的决定。</p>
+      </div>
+
+      <div class="symbol-card card-hover fade-up">
+        <div class="symbol-icon">📡</div>
+        <h3>宇宙回响的引信</h3>
+        <p>她是《三体》宇宙大幕的开启者。红岸基地的那一次电磁波发射，是人类文明第一次向宇宙发出的洪亮信号。她的选择直接导致了三体舰队的远征、黑暗森林法则的显现、太阳系的毁灭。一己之力，撼动宇宙的秩序。</p>
+      </div>
+
+      <div class="symbol-card card-hover fade-up">
+        <div class="symbol-icon">⚖️</div>
+        <h3>极端的理想主义审判者</h3>
+        <p>叶文洁的行为逻辑源于一种极端化的理想主义：她认为人类文明不可救药，唯有外来文明的力量才能打破僵化与腐朽。她是审判者，也是殉道者——她甘愿背负文明叛徒之名为自己的理想殉葬，是全书最具争议性的道德议题。</p>
+      </div>
+
+      <div class="symbol-card card-hover fade-up">
+        <div class="symbol-icon">🌱</div>
+        <h3>毁灭与救赎的一体两面</h3>
+        <p>她亲手毁灭了人类文明，但又在覆灭前夕为罗辑留下了黑暗森林的理论种子。她既是三体入侵的始作俑者，又是间接给了人类反击武器的启蒙者。毁灭是她的，救赎的钥匙也来自她——叶文洁本身就是善恶同体的终极命题。</p>
+      </div>
+
+      <div class="symbol-card card-hover fade-up" style="grid-column:1/-1;">
+        <div class="symbol-icon">📖</div>
+        <h3>全书叙事的灵魂人物</h3>
+        <p>没有叶文洁，就没有《三体》的故事。她是全篇叙事真正的起点与灵魂，串起了红岸基地、三体入侵、宇宙社会学、黑暗森林法则、人类文明存续等全部核心剧情。读懂叶文洁，就读懂了人性在绝望中被推向毁灭的过程，也读懂了一个文明在生死边缘被重新定义的宿命。</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== 模块六：经典台词与原著名场面 ===== -->
+<section id="quotes" class="section-padding quote-section">
+  <div class="container">
+    <h2 class="section-title fade-up">经典台词与原著名场面</h2>
+    <div class="quote-grid">
+
+      <div class="quote-card card-hover fade-up">
+        <div class="quote-text">"第一次向宇宙发出信息的时候，我犹豫了很久。但我想到了父亲，想到了那些无辜死去的人——我觉得人类不配拥有这片星空。"</div>
+        <div class="quote-context">—— 核心心路 · 向太空发射信号前夕的审判性独白</div>
+      </div>
+
+      <div class="quote-card card-hover fade-up">
+        <div class="quote-text">"不要回答！不要回答！！不要回答！！！"</div>
+        <div class="quote-context">—— 三体文明发回的第一条信息 · 宇宙中唯一的善意警告</div>
+      </div>
+
+      <div class="quote-card card-hover fade-up">
+        <div class="quote-text">"人类无法自救，必须借助外部的力量来改造这个世界。"</div>
+        <div class="quote-context">—— ETO创立初衷 · 对人类文明彻底的绝望与审判</div>
+      </div>
+
+      <div class="quote-card card-hover fade-up">
+        <div class="quote-text">"宇宙社会学的基础：生存是文明的第一需要。文明不断增长和扩张，但宇宙中的物质总量保持不变。"</div>
+        <div class="quote-context">—— 对罗辑的最后馈赠 · 黑暗森林法则的理论根基</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- ===== 原著原文选段 ===== -->
+<section id="excerpts" class="section-padding excerpt-section" style="background:rgba(244,67,54,0.01);">
+  <div class="container">
+    <h2 class="section-title fade-up">原著原文选段</h2>
+    <p style="text-align:center;color:#90A4AE;font-size:0.85rem;letter-spacing:2px;margin-bottom:40px;">翻开《三体：地球往事》，重温那些属于叶文洁的文学瞬间</p>
+    <div class="excerpt-card fade-up">
+      <div class="excerpt-source">&#10078; 《三体I：地球往事》 · 红岸基地 · 发射信号</div>
+      <div class="excerpt-body">
+        叶文洁按下了发射键。没有声息，没有光芒，只有仪表盘上一串跳动的数字。她知道自己做了一件什么事：她向着宇宙深处发出了人类文明的声音。这个信号将以光速传播，用四年时间抵达最近的恒星系。
+      </div>
+      <div class="excerpt-context">改变人类命运的一刻，叶文洁的情感比任何理论都更加复杂</div>
+    </div>
+    <div class="excerpt-card fade-up">
+      <div class="excerpt-source">&#10078; 《三体I：地球往事》 · 红岸基地 · 三体回信</div>
+      <div class="excerpt-body">
+        信息只有八个字：「不要回答！不要回答！！不要回答！！！」
+      </div>
+      <div class="excerpt-context">三体文明发回的唯一善意警告，却被绝望的叶文洁完全无视</div>
+    </div>
+    <div class="excerpt-card fade-up">
+      <div class="excerpt-source">&#10078; 《三体I：地球往事》 · 审判 · 最终陈述</div>
+      <div class="excerpt-body">
+        「我看到了太多黑暗，太多丑陋。父亲被打死在台上，母亲在台下背叛了他。整个文明都病了，病入膏肓。我不后悔。如果一切重来，我仍然会按下那个按钮。」
+      </div>
+      <div class="excerpt-context">被捕后的叶文洁，平静坦然地面对自己的审判</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 页脚 ===== -->
+<footer class="footer">
+  <p>叶文洁 · 从人间炼狱，到宇宙回响，终为文明奠基</p>
+  <p>《三体》人物主题站 · 致敬刘慈欣与叶文洁 · 献给每一个在苦难中抉择的人</p>
+  <p style="margin-top:12px;font-size:0.7rem;">她向宇宙发出了一声叹息，却引来了一个文明的毁灭与重生</p>
+  <p style="margin-top:20px;font-size:0.65rem;color:rgba(144,164,174,0.5);">
+    — 内容严格对标《三体I：地球往事》《三体II：黑暗森林》原著情节 —
+  </p>
+</footer>
+
+<script>
+
+// ===== 红岸信号发射交互 =====
+(function() {
+  var sent = false;
+  var btn = document.getElementById("signalBtn");
+  var result = document.getElementById("signalResult");
+  var wave = document.getElementById("signalWave");
+  if (!btn) return;
+  function showStep(i) {
+    var el = document.getElementById("step" + i);
+    if (el) el.classList.add("visible");
+  }
+  btn.addEventListener("click", function() {
+    if (sent) return;
+    sent = true;
+    btn.classList.add("sending");
+    btn.disabled = true;
+    btn.innerHTML = "&#9651; 信号发射中...";
+    wave.classList.remove("active");
+    void wave.offsetWidth;
+    wave.classList.add("active");
+    setTimeout(function() { showStep(1); }, 800);
+    setTimeout(function() { showStep(2); }, 1800);
+    setTimeout(function() { showStep(3); }, 2800);
+    setTimeout(function() { showStep(4); }, 3800);
+    setTimeout(function() {
+      btn.classList.remove("sending");
+      btn.innerHTML = "&#10003; 信号已发送";
+      result.classList.add("show");
+      result.classList.add("warning");
+    }, 5000);
+  });
+})();
+
+// ===== 粒子系统 =====
+(function() {
+  const canvas = document.getElementById('particle-canvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let mouseX = -1000, mouseY = -1000;
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  class Particle {
+    constructor() { this.reset(); }
+    reset() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.size = Math.random() * 1.5 + 0.3;
+      this.speedX = (Math.random() - 0.5) * 0.15;
+      this.speedY = (Math.random() - 0.5) * 0.15;
+      this.opacity = Math.random() * 0.6 + 0.2;
+      this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+      this.twinklePhase = Math.random() * Math.PI * 2;
+      this.color = Math.random() > 0.7 ? '#EF5350' : (Math.random() > 0.5 ? '#FF8A80' : '#ffffff');
+    }
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+      this.twinklePhase += this.twinkleSpeed;
+      if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+    }
+    draw() {
+      const currentOpacity = this.opacity * (0.6 + 0.4 * Math.sin(this.twinklePhase));
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.globalAlpha = currentOpacity;
+      ctx.fill();
+
+      // 鼠标互动：靠近时光晕
+      const dx = this.x - mouseX;
+      const dy = this.y - mouseY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 100) {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size * 3, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.globalAlpha = 0.08 * (1 - dist / 100);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  for (let i = 0; i < 120; i++) particles.push(new Particle());
+
+  document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+
+// ===== 滚动渐入 =====
+(function() {
+  const els = document.querySelectorAll('.fade-up');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  els.forEach(el => observer.observe(el));
+})();
+
+// ===== 关系图谱 =====
+(function() {
+  const container = document.getElementById('relationContainer');
+  const nodesContainer = document.getElementById('relationNodes');
+  const svg = document.getElementById('relationSvg');
+
+  const relations = [
+    { name:'叶哲泰', role:'父亲 · 精神偶像', cx:'15%', cy:'15%', desc:'著名物理学家，文革中被批斗致死。父亲的惨死是叶文洁一生悲剧的根源，也是她对人类绝望的起点。' },
+    { name:'绍琳', role:'母亲 · 背叛者', cx:'85%', cy:'20%', desc:'天体物理学者，文革中为自保背叛丈夫，彻底摧毁了叶文洁对家庭与道德的信任，也让她看透了人性的自私本质。' },
+    { name:'杨卫宁', role:'丈夫 · 牺牲者', cx:'20%', cy:'50%', desc:'红岸基地同事，后与叶文洁结婚。因叶文洁的间接行为遇难，他的死成为叶文洁心中无法抹去的罪责。' },
+    { name:'杨冬', role:'女儿 · 最后的牵挂', cx:'80%', cy:'50%', desc:'叶文洁与杨卫宁的女儿，天才物理学家。得知三体真相后自杀身亡，她的死让叶文洁面对最终的审判与忏悔。' },
+    { name:'罗辑', role:'学生 · 命运的接力', cx:'50%', cy:'12%', desc:'唯一被叶文洁寄予希望的后辈。在杨冬墓前，叶文洁将宇宙社会学两大公理传授给他，间接促成黑暗森林法则的诞生。' },
+    { name:'三体文明', role:'呼唤的对象 · 审判者', cx:'15%', cy:'85%', desc:'叶文洁以极端理想主义邀约的外来文明，最终成为人类文明存亡的审判者，也反证了叶文洁选择的天真与残酷。' },
+    { name:'ETO组织', role:'追随者 · 工具', cx:'85%', cy:'80%', desc:'叶文洁亲手创立的地球三体运动组织，聚集了对人类失望的理想主义者与极端分子，是她实现理念的具象化力量。' }
+  ];
+
+  // 创建SVG连线
+  function drawLines() {
+    const rect = container.getBoundingClientRect();
+    svg.setAttribute('viewBox', '0 0 ' + rect.width + ' ' + rect.height);
+    svg.innerHTML = '';
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+    relations.forEach(r => {
+      const px = parseFloat(r.cx) / 100 * rect.width;
+      const py = parseFloat(r.cy) / 100 * rect.height;
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', cx);
+      line.setAttribute('y1', cy);
+      line.setAttribute('x2', px);
+      line.setAttribute('y2', py);
+      line.setAttribute('class', 'rel-line');
+      line.setAttribute('data-target', r.name);
+      svg.appendChild(line);
+    });
+  }
+
+  // 创建关系节点
+  function createNodes() {
+    relations.forEach((r, idx) => {
+      const node = document.createElement('div');
+      node.className = 'relation-node';
+      node.style.left = r.cx;
+      node.style.top = r.cy;
+      node.style.transform = 'translate(-50%,-50%)';
+      node.style.animationDelay = (idx * 0.15) + 's';
+      node.innerHTML = '<div class="node-name">' + r.name + '</div><div class="node-role">' + r.role + '</div>';
+      node.title = r.desc;
+      node.addEventListener('mouseenter', () => {
+        document.querySelectorAll('.rel-line[data-target="' + r.name + '"]').forEach(l => l.classList.add('active'));
+        node.classList.add('highlight');
+      });
+      node.addEventListener('mouseleave', () => {
+        document.querySelectorAll('.rel-line').forEach(l => l.classList.remove('active'));
+        document.querySelectorAll('.relation-node').forEach(n => n.classList.remove('highlight'));
+      });
+      nodesContainer.appendChild(node);
+    });
+  }
+
+  setTimeout(() => {
+    drawLines();
+    createNodes();
+  }, 300);
+
+  window.addEventListener('resize', () => {
+    drawLines();
+  });
+})();
+</script>
+
+</body>
+</html>
+
